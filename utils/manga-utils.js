@@ -1,8 +1,8 @@
 const request = require("request");
-const axios = require("axios");
 const cheerio = require("cheerio");
+const axios = require("axios");
 const fs = require('fs');
-const https = require('https');
+const http = require('https');
 
 const getHTML = async (url) => {
   const options = { method: 'GET',
@@ -19,7 +19,7 @@ const getHTML = async (url) => {
       }
   }
   const instance = axios.create({
-    httpsAgent: new https.Agent({rejectUnauthorized:false})
+    httpsAgent: new http.Agent({rejectUnauthorized:false})
   })
 
   resp = await instance(options);
@@ -28,7 +28,7 @@ const getHTML = async (url) => {
 
 const downloadImg = (imgURL, referer, filename) => {
   const options = { method: 'GET',
-    url: encodeURI(imgURL),
+    url: imgURL,
     headers: 
       {
         'referer': referer,
@@ -38,6 +38,22 @@ const downloadImg = (imgURL, referer, filename) => {
   axios(options).then((response) => {
     response.data.pipe(fs.createWriteStream(filename))
   })
+}
+
+const getImgBuffer = async (imgURL, referer) => {
+  const options = { method: 'GET',
+    url: encodeURI(imgURL),
+    headers: 
+      {
+        'referer': referer,
+      },
+      'responseType': 'arraybuffer'
+  }
+  let result;
+  return await axios(options)
+  //   result = new Buffer(response.data, 'binary').toString('base64');
+  //   console.log('got result');
+  // })
 }
 
 const extractData = ({url, data}) => {
@@ -115,7 +131,9 @@ const getSuggestions = async (url) => {
 
     })
   return results;
-} 
+}
+// const u = 'https://manhua1032-43-249-37-70.cdndm5.com/11/10684/626522/1_5593.png?cid=626522&key=85570a48c0f0e746b8baff2ae39575e6&type=1';
+// const r = 'https://www.manhuaren.com/m626522'
 
-
-module.exports = {getChapterLinks, getImgLinks, getSuggestions};
+// downloadImg(u, r, 'test.png');
+module.exports = {getChapterLinks, getImgLinks, getSuggestions, getImgBuffer, downloadImg};
