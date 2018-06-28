@@ -80,24 +80,6 @@ const getChapterLinks = async (mangaURL) => {
   return results
 }
 
-const getText = (tags, flag) => {
-  let results = [];
-  let ends = [];
-  for (let i = 0; i < tags.length ; i++) {
-    let data = tags[i].children[0].data;
-    results.push(data === undefined ? '' : data);
-    if (flag) {
-      let length = tags[i].children.length;
-      let data2 = tags[i].children[length-1].data
-      ends.push(data2 === undefined ? '' : data2);
-    }
-  }
-  return [results, ends];
-}
-
-const allEqual = arr => arr.every( v => v === arr[0] )
-
-
 const getSuggestions = async (url) => {
   // var nowEpoch = Date.now();
   let results = [];
@@ -106,32 +88,29 @@ const getSuggestions = async (url) => {
       const $ = data;
       const liTags = $('li');
 
-      let links = []
-      for (let k in liTags) {
-        let liTag = liTags[k];
-        let attribs = liTag.attribs;
-        if (attribs !== undefined && Object.keys(attribs).length !== 0) {
-          links.push(attribs.onclick);
-        }        
-      }
+      const links = []
+      liTags.each((i, ele) => {
+        links.push($(ele).attr().onclick)
+      })
+
       const leftTags = $('li > a > span[class="left"]');
-      const rightTags = $('li > a > span[class="right"]');
-      const redTags = $('li > a > span > span[class="red"]');
-      
-      const reds = redTags.contents().map(function() {
-        if (this.type == 'text')
-          return $(this).text();
-      }).get();
-      const [lefts, ends] = getText(leftTags, true)
-      const [rights, ] = getText(rightTags, false)
+      const lefts = [];
+      const rights = [];
+      leftTags.each((i, ele) => {
+        lefts.push($(ele).text())
+      })
 
-      for (let i = 0; i < lefts.length; i++) {
 
+      leftTags.next().each((i, ele) => {
+        rights.push($(ele).text())
+      })
+
+      for (let k = 0; k < lefts.length; k++) {
         results.push({
-          title:lefts[i] + reds[i] + ends[i],
-          chapter: rights[i],
-          link: links[i]
-        });
+          title: lefts[k],
+          chapter: rights[k],
+          link: links[k]
+        })
       }
 
     })
