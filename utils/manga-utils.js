@@ -90,7 +90,7 @@ const getSuggestions = async (url) => {
 
       const links = []
       liTags.each((i, ele) => {
-        links.push($(ele).attr().onclick)
+        links.push($(ele).attr().onclick.replace(/(.*)\/(man.*)(\/.*)/, '$2'))
       })
 
       const leftTags = $('li > a > span[class="left"]');
