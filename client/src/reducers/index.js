@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import testReducer from './testReducer';
+import apiReducer from './apiReducer';
 export default combineReducers({
-	test: testReducer
+	api: apiReducer
 });

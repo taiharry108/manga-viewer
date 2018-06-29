@@ -28,7 +28,7 @@ const getHTML = async (url) => {
 
 const downloadImg = (imgURL, referer, filename) => {
   const options = { method: 'GET',
-    url: imgURL,
+    url: encodeURI(imgURL),
     headers: 
       {
         'referer': referer,
