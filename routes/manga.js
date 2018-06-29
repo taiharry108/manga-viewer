@@ -41,14 +41,8 @@ router.post('/api/getImg', (req, res, next) => {
 
 
   getImgBuffer(u, r).then((response) => {
-    console.log('got response');
-    const img = new Buffer(response.data, 'binary')
-
-    res.writeHead(200, {
-      'Content-Type': 'image/png',
-      'Content-Length': img.length
-    })
-    res.end(img);
+    console.log(response.data)
+    res.send(response.data.toString('base64'));
   })
 })
 

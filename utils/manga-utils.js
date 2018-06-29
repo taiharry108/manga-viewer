@@ -69,7 +69,9 @@ const getImgLinks = async (chapterURL) => {
   let result;
   await getHTML(chapterURL).then(({url, data}) => {
     const $ = data;
-    let text = $('script')[8].children[0].data;
+    let text = $('script')[0].children[0].data;
+    console.log(text)
+
     const s = eval(text.slice(4));
     eval(s);
     result = newImgs;
