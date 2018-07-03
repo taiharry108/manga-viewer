@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {getImgLinks } from '../actions/apiActions';
+import { getImgLinks, getSuggestionFromBackend, clearSugg } from '../actions/apiActions';
 import { Form } from 'reactstrap';
 import Autosuggest from 'react-autosuggest';
 
@@ -59,88 +59,21 @@ const theme = {
   }
 };
 
-const languages = [
-  {
-    name: 'C',
-    year: 1972
-  },
-  {
-    name: 'C#',
-    year: 2000
-  },
-  {
-    name: 'C++',
-    year: 1983
-  },
-  {
-    name: 'Clojure',
-    year: 2007
-  },
-  {
-    name: 'Elm',
-    year: 2012
-  },
-  {
-    name: 'Go',
-    year: 2009
-  },
-  {
-    name: 'Haskell',
-    year: 1990
-  },
-  {
-    name: 'Java',
-    year: 1995
-  },
-  {
-    name: 'Javascript',
-    year: 1995
-  },
-  {
-    name: 'Perl',
-    year: 1987
-  },
-  {
-    name: 'PHP',
-    year: 1995
-  },
-  {
-    name: 'Python',
-    year: 1991
-  },
-  {
-    name: 'Ruby',
-    year: 1995
-  },
-  {
-    name: 'Scala',
-    year: 2003
-  }
-];
 
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions(value) {
-  const escapedValue = escapeRegexCharacters(value.trim());
-  
-  if (escapedValue === '') {
-    return [];
-  }
-
-  const regex = new RegExp('^' + escapedValue, 'i');
-
-  return languages.filter(language => regex.test(language.name));
-}
-
 function getSuggestionValue(suggestion) {
-  return suggestion.name;
+  return suggestion.title;
 }
 
 function renderSuggestion(suggestion) {
-  return (
-    <span>{suggestion.name}</span>
+  return (    
+    <div>
+      <span>{suggestion.title}</span>
+      <span>({suggestion.chapter})</span>
+    </div>
   );
 }
 
@@ -150,7 +83,6 @@ class MangaSearchBar extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       value: '',
-      suggestions: []
     }
   }
 
@@ -167,21 +99,18 @@ class MangaSearchBar extends Component {
   };
   
   onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value)
-    });
+    this.props.getSuggestionFromBackend(value);
   };
 
   onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
+    this.props.clearSugg();
   };
 
   render() {
-    const { value, suggestions } = this.state;
+    const { value } = this.state;
+    const suggestions = this.props.suggestions
     const inputProps = {
-      placeholder: "Type 'c'",
+      placeholder: "Type manga name",
       value,
       onChange: this.onChange
     };
@@ -203,10 +132,13 @@ class MangaSearchBar extends Component {
 
 const mapStateToProps = state => {
   return {
+    suggestions: state.api.suggestions,
   }
 };
 
 export default connect(mapStateToProps, {
   getImgLinks,
+  getSuggestionFromBackend,
+  clearSugg,
 })(MangaSearchBar);
 

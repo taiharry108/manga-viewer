@@ -1,4 +1,7 @@
-import { GET_IMG_LINKS, GET_NEW_IMG_DATA } from './types';
+import { GET_IMG_LINKS,
+  GET_NEW_IMG_DATA,
+  GET_SUGG_FROM_BACKEND,
+  CLEAR_SUGG } from './types';
 import axios from 'axios';
 
 export const getImgLinks = (chapter) => dispatch => {
@@ -23,6 +26,20 @@ export const getNewImageData = (imgData) => dispatch => {
   });
 }
 
-export const getSuggestionFromBackend = value => dispatch => {
-  
+export const getSuggestionFromBackend = name => dispatch => {
+  const encodedName = encodeURI(name)
+  const url = `http://localhost:3000/manga/api/sugg/${encodedName}`
+  axios.get(url)
+    .then(res => {
+      dispatch({
+        type: GET_SUGG_FROM_BACKEND,
+        payload: res.data
+      })
+    })
+}
+
+export const clearSugg = () => dispatch => {
+  dispatch({
+    type: CLEAR_SUGG
+  })
 }

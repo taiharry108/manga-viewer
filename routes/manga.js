@@ -23,6 +23,7 @@ router.get('/api/chapter/:chapterID', (req, res, next) => {
 
 router.get('/api/sugg/:query', (req, res, next) => {
   const query = encodeURI(req.params.query);
+  console.log(query);
   const url = 'http://www.dm5.com/search.ashx?d=1530153061899&t=' + query + '&language=1'
   console.log(url);
   getSuggestions(url)
