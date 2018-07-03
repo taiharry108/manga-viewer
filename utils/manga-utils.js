@@ -78,20 +78,29 @@ const getImgLinks = async (chapterURL) => {
 }
 
 const getChapterLinks = async (mangaURL) => {
-  let results = [];
+  let results = {};
   await getHTML(mangaURL)
   .then(({data, url}) => {
     const $ = data;
-    const aTags = $('#detail-list-select-1 a');
+    const types = [];
+    const typesTag = $('.detail-selector.item-4 a');
+    typesTag.each((i, ele) => {
+        if (i < typesTag.length - 1) {
+          let type = $(ele).text();
+          types.push(type);
+          results[type] = [];
+        }
+    })
 
-    for (let k in aTags) {
-      let aTag = aTags[k];
-      let attribs = aTag.attribs;
-      if (attribs !== undefined && Object.keys(attribs).length !== 0) {
-        attribs.vol = aTag.children[0].data;
-        results.push(attribs);
-      }
-    }
+    const listTag = $('.detail-list-1')
+    listTag.each((i, ele) => {
+      let type = types[i];
+      let linkTags = $(ele).find('a');
+      $(linkTags).each((i, aEle) => {
+        let chapter = $(aEle).text();
+        results[type].push({...$(aEle).attr(), chapter: chapter});
+      })
+    })
   })
   return results
 }

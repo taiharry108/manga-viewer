@@ -8,7 +8,6 @@ router.get('/api/name/:mangaName', (req, res, next) => {
   const mangaName = req.params.mangaName;
   const mangaURL = 'https://www.manhuaren.com/' + mangaName
   getChapterLinks(mangaURL).then((r) => {
-    console.log(r);
     res.send(r)
   });
   

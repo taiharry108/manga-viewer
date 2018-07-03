@@ -14,16 +14,16 @@ class ChapterWrapper extends Component {
   render() {
     console.log(this.props.chapterData);
     const chapterDiv = this.props.chapterData.map(chapterData => {
-      return  <Col key={chapterData.href}>
-                {chapterData.vol}
-              </Col>
+      return  <Row>
+                <Col key={chapterData.href}>
+                  {chapterData.vol}
+                </Col>
+              </Row>
     })
 
     return (
       <Container className='chapter-wrapper'>
-        <Row>
-          {chapterDiv}
-        </Row>
+        {chapterDiv}
       </Container>
     );
   }
