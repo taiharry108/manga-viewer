@@ -67,11 +67,12 @@ const extractData = ({url, data}) => {
 
 const getImgLinks = async (chapterURL) => {
   let result;
-  await getHTML(chapterURL).then(({url, data}) => {
+  await getHTML(chapterURL).then(({url, data}) => {    
     const $ = data;
-    let text = $('script')[0].children[0].data;
+    const scripts = $('script');
+    const script = scripts.map((i, x) => x.children[0]).filter((i, x) => x && x.data.startsWith('eval')).get(0);
+    const text = script.data
     console.log(text)
-
     const s = eval(text.slice(4));
     eval(s);
     result = newImgs;
@@ -85,6 +86,7 @@ const getChapterLinks = async (mangaURL) => {
   .then(({data, url}) => {
     const $ = data;
     const aTags = $('#detail-list-select-1 a');
+    console.log(aTags)
 
     for (let k in aTags) {
       let aTag = aTags[k];
