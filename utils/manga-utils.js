@@ -98,7 +98,7 @@ const getChapterLinks = async (mangaURL) => {
       let linkTags = $(ele).find('a');
       $(linkTags).each((i, aEle) => {
         let chapter = $(aEle).text();
-        results[type].push({...$(aEle).attr(), chapter: chapter});
+        results[type].push({...$(aEle).attr(), vol: chapter});
       })
     })
   })

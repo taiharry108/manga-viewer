@@ -12,13 +12,17 @@ class ChapterWrapper extends Component {
   }
 
   render() {
-    console.log(this.props.chapterData);
-    const chapterDiv = this.props.chapterData.map(chapterData => {
-      return  <Row>
-                <Col key={chapterData.href}>
-                  {chapterData.vol}
+    const chapterDiv = Object.keys(this.props.chapterData).map((type) => {
+      let data = this.props.chapterData[type];
+      const dataCol = data.map(d => {
+        return  <Col xs='3' key={d.href}>
+                  {d.vol}
                 </Col>
+      })
+      return  <Row key={type}>
+                {dataCol}
               </Row>
+      
     })
 
     return (
