@@ -81,9 +81,10 @@ const getChapterLinks = async (mangaURL) => {
   let results = {};
   await getHTML(mangaURL)
   .then(({data, url}) => {
+    console.log(url)
     const $ = data;
     const types = [];
-    const typesTag = $('.detail-selector.item-4 a');
+    const typesTag = $('div.detail-selector a');
     typesTag.each((i, ele) => {
         if (i < typesTag.length - 1) {
           let type = $(ele).text();

@@ -2,7 +2,8 @@ import { GET_IMG_LINKS,
   GET_NEW_IMG_DATA,
   GET_SUGG_FROM_BACKEND,
   CLEAR_SUGG,
-  GET_CHAPTERS } from './types';
+  GET_CHAPTERS,
+  CLEAR_IMG } from './types';
 import axios from 'axios';
 
 export const getImgLinks = (chapter) => dispatch => {
@@ -53,4 +54,10 @@ export const getChapters = mangaName => dispatch => {
         payload: res.data
       })
     })
+}
+
+export const clearImages = () => dispatch => {
+  dispatch({
+    type: CLEAR_IMG
+  })
 }

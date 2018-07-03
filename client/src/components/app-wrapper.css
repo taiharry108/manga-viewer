@@ -12,3 +12,7 @@ html, body, #app {
 	background: red;
 	overflow-y: auto;
 }
+
+::-webkit-scrollbar {
+    width: 0;
+}

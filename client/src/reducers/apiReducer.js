@@ -2,7 +2,8 @@ import { GET_IMG_LINKS,
   GET_NEW_IMG_DATA,
   GET_SUGG_FROM_BACKEND,
   CLEAR_SUGG,
-  GET_CHAPTERS
+  GET_CHAPTERS,
+  CLEAR_IMG
 } from '../actions/types'
 const initialState = {
   imgs: [],
@@ -42,6 +43,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         chapterData: action.payload
+      }
+    case CLEAR_IMG:
+      return {
+        ...state,
+        imgsData: []
       }
 
     default:

@@ -18,7 +18,7 @@ class ImageViewer extends Component {
                   </div>
         })
     return (
-      <div className='d-flex flex-column'>
+      <div className='d-flex flex-column text-center py-3'>
         {ImgDiv}
       </div>
     );
