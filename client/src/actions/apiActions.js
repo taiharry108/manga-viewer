@@ -22,3 +22,7 @@ export const getNewImageData = (imgData) => dispatch => {
     payload: imgData
   });
 }
+
+export const getSuggestionFromBackend = value => dispatch => {
+  
+}

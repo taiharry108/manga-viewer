@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Input, Form } from 'reactstrap';
+import { Container } from 'reactstrap';
 import ImageViewer from './image-viewer';
-import {getImgLinks, getNewImageData } from '../actions/apiActions';
+import MangaSearchBar from './manga-searchbar';
+import { getNewImageData } from '../actions/apiActions';
 import axios from 'axios';
+import { loopWithDelay } from '../utils';
 import './app-wrapper.css';
+
 
 class AppWrapper extends Component {
   constructor(props) {
     super(props);
-    this.onInput = this.onInput.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    
     this.state = {
       textContent:'',
       imgsData: []
@@ -18,52 +20,29 @@ class AppWrapper extends Component {
     
   }
 
-
-
   componentWillReceiveProps(nextProps) {    
     if (this.props.imgs.length !== nextProps.imgs.length) {
       const imgs = [...nextProps.imgs];
-      const doSomething = (n) => {
-        let imgLink = n.shift()
-        console.log(imgLink)
-        axios.post("http://localhost:3000/manga/api/getImg", {
-          imgURL: imgLink,
-          r: this.props.referer
-        }).then((res) => {
-          this.props.getNewImageData(res.data);
-
-        })
-        setTimeout(() => {
-          if (n.length !== 0)
-            doSomething(n)
-        }, 1000);
-        
+      const args = {
+        r: nextProps.referer,
+        url: "http://localhost:3000/manga/api/getImg",
+        f: this.props.getNewImageData
       }
-      doSomething(imgs);
+      loopWithDelay(imgs, 1000, (ele, {r, url, f}) => {
+        const data = {
+          imgURL: ele,
+          r: r
+        }
+        axios.post(url, data).then((res) => f(res.data));
+      }, args)
     }
   }
 
-  onInput(e) {
-    this.setState({
-      textContent: e.target.value
-    });    
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
-    console.log('going to submit', this.state.textContent);
-    this.props.getImgLinks(this.state.textContent);
-  }
+  
   render() {
-    const imgDiv = this.props.imgsData.map((imgData) => {
-      return <img src={"data:image/jpeg;base64," + imgData} />
-    })
     return (
       <Container className='app-wrapper'>
-        <Form onSubmit={this.onSubmit}>
-          <Input className='chapter my-2' onInput={this.onInput}/>
-        </Form>
-        {imgDiv}
+        <MangaSearchBar/>
         <ImageViewer/>
       </Container>
     );
@@ -79,7 +58,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  getImgLinks,
   getNewImageData
 })(AppWrapper);
 

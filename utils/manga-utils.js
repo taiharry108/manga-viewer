@@ -136,8 +136,4 @@ const getSuggestions = async (url) => {
     })
   return results;
 }
-// const u = 'https://manhua1032-43-249-37-70.cdndm5.com/11/10684/626522/1_5593.png?cid=626522&key=85570a48c0f0e746b8baff2ae39575e6&type=1';
-// const r = 'https://www.manhuaren.com/m626522'
-
-// downloadImg(u, r, 'test.png');
 module.exports = {getChapterLinks, getImgLinks, getSuggestions, getImgBuffer, downloadImg};

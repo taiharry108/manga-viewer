@@ -8,12 +8,18 @@ class ImageViewer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imgs:[]
     }
   }
-  render() {    
+
+  render() {
+    const ImgDiv = this.props.imgsData.map((imgData) => {
+          return  <div key={imgData.id}>
+                    <img src={"data:image/jpeg;base64," + imgData.data} />
+                  </div>
+        })
     return (
       <div className='d-flex flex-column'>
+        {ImgDiv}
       </div>
     );
   }
@@ -21,6 +27,9 @@ class ImageViewer extends Component {
 
 const mapStateToProps = state => {
   return {
+    imgs: state.api.imgs,
+    referer: state.api.referer,
+    imgsData: state.api.imgsData
   }
 };
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const uuidv1 = require('uuid/v1');
 const router = express.Router();
 const {downloadImg, getImgBuffer, getChapterLinks, getImgLinks, getSuggestions} = require('../utils/manga-utils');
 
@@ -13,15 +14,10 @@ router.get('/api/name/:mangaName', (req, res, next) => {
 router.get('/api/chapter/:chapterID', (req, res, next) => {
   const chapterID = req.params.chapterID;
   const chapterURL = 'https://www.manhuaren.com/' + chapterID
-  console.log(chapterURL);
   const result = [];
   getImgLinks(chapterURL).then((r) => {
 
     res.send(r);
-    // const promises = r.slice(0,10).map((imgURL) => {
-    //   return getImgBuffer(imgURL, chapterURL).then((response) => response.data.toString('base64'))
-    // })    
-    // Promise.all(promises).then((x) => res.send(x))
   });
 });
 
@@ -41,8 +37,9 @@ router.post('/api/getImg', (req, res, next) => {
 
 
   getImgBuffer(u, r).then((response) => {
-    console.log(response.data)
-    res.send(response.data.toString('base64'));
+    const id = uuidv1()
+    console.log(id);
+    res.send({data:response.data.toString('base64'), id:id});
   })
 })
 
