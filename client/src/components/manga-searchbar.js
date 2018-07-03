@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getImgLinks, getSuggestionFromBackend, clearSugg } from '../actions/apiActions';
+import { getImgLinks,
+  getSuggestionFromBackend,
+  clearSugg,
+  getChapters } from '../actions/apiActions';
 import { Form } from 'reactstrap';
 import Autosuggest from 'react-autosuggest';
 
@@ -106,6 +109,10 @@ class MangaSearchBar extends Component {
     this.props.clearSugg();
   };
 
+  onSuggestionSelected = (event, { suggestion, suggestionValue }) => {
+    this.props.getChapters(suggestion.link);
+  }
+
   render() {
     const { value } = this.state;
     const suggestions = this.props.suggestions
@@ -120,6 +127,7 @@ class MangaSearchBar extends Component {
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          onSuggestionSelected={this.onSuggestionSelected}
           getSuggestionValue={getSuggestionValue}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
@@ -140,5 +148,6 @@ export default connect(mapStateToProps, {
   getImgLinks,
   getSuggestionFromBackend,
   clearSugg,
+  getChapters
 })(MangaSearchBar);
 

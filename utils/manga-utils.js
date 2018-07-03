@@ -51,9 +51,6 @@ const getImgBuffer = async (imgURL, referer) => {
   }
   let result;
   return await axios(options)
-  //   result = new Buffer(response.data, 'binary').toString('base64');
-  //   console.log('got result');
-  // })
 }
 
 const extractData = ({url, data}) => {
@@ -86,7 +83,6 @@ const getChapterLinks = async (mangaURL) => {
   .then(({data, url}) => {
     const $ = data;
     const aTags = $('#detail-list-select-1 a');
-    console.log(aTags)
 
     for (let k in aTags) {
       let aTag = aTags[k];

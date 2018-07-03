@@ -7,7 +7,10 @@ const {downloadImg, getImgBuffer, getChapterLinks, getImgLinks, getSuggestions} 
 router.get('/api/name/:mangaName', (req, res, next) => {
   const mangaName = req.params.mangaName;
   const mangaURL = 'https://www.manhuaren.com/' + mangaName
-  getChapterLinks(mangaURL).then((r) => res.send(r));
+  getChapterLinks(mangaURL).then((r) => {
+    console.log(r);
+    res.send(r)
+  });
   
 });
 

@@ -1,12 +1,14 @@
 import { GET_IMG_LINKS,
   GET_NEW_IMG_DATA,
   GET_SUGG_FROM_BACKEND,
-  CLEAR_SUGG
+  CLEAR_SUGG,
+  GET_CHAPTERS
 } from '../actions/types'
 const initialState = {
   imgs: [],
   imgsData: [],
   suggestions: [],
+  chapterData: [],
   referer: null
 }
 
@@ -35,6 +37,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         suggestions: []
+      }
+    case GET_CHAPTERS:
+      return {
+        ...state,
+        chapterData: action.payload
       }
 
     default:
