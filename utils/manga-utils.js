@@ -29,7 +29,6 @@ const getHTML = async (url) => {
 const downloadImg = (imgURL, referer, filename) => {
   const options = { method: 'GET',
     url: encodeURI(imgURL),
-    rejectUnauthorized: false,
     headers: 
       {
         'referer': referer,
@@ -48,7 +47,8 @@ const getImgBuffer = async (imgURL, referer) => {
       {
         'referer': referer,
       },
-      'responseType': 'arraybuffer'
+    rejectUnauthorized: false,
+    'responseType': 'arraybuffer'
   }
   let result;
   console.log('Im in getImgBuffer');
