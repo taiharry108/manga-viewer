@@ -47,7 +47,6 @@ const getImgBuffer = async (imgURL, referer) => {
       {
         'referer': referer,
       },
-    rejectUnauthorized: false,
     'responseType': 'arraybuffer'
   }
   let result;
