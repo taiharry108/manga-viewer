@@ -8,10 +8,12 @@ import { Container,
   CardTitle,
   Button } from 'reactstrap';
 import { getImgLinks, clearImages } from '../actions/apiActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { toggleSidebar } from '../actions/uiActions';
 import axios from 'axios';
-import './chapter-wrapper.css'
+import './chapter-sidebar.css'
 
-class ChapterWrapper extends Component {
+class ChapterSidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,8 +34,8 @@ class ChapterWrapper extends Component {
                   <Button color='warning' onClick={() => this.chapOnClick(d.href)} className='chap-wrap text-center border m-1 py-2 w-100'>{d.vol}</Button>
                 </Col>
       })
-      return  <Container key={type}>
-                <Row className='p-3'><h2>{type}</h2></Row>
+      return  <Container key={type}>                
+                <Row className='p-3 text-nowrap'><h2>{type}</h2></Row>
                 <Row>
                   {dataCol}
                 </Row>
@@ -41,9 +43,18 @@ class ChapterWrapper extends Component {
       
     })
 
+    const sidebarClass = 'sidebar' + (this.props.sidebarIsShown ? '' : ' in');
+
     return (
-      <div className='chapter-wrapper'>
-        {chapterDiv}
+      <div className='sidebar-wrapper d-flex flex-row'>
+        <div className={sidebarClass}>
+
+          {chapterDiv}
+        </div>
+        <div className="icon-wrapper d-flex align-self-center align-items-center rounded-right text-right" onClick={this.props.toggleSidebar}>
+          <div className='filler'></div>
+          <FontAwesomeIcon className="sidebar-icon" icon={this.props.sidebarIsShown ? "chevron-left" : "chevron-right"}/>
+        </div>
       </div>
     );
   }
@@ -51,12 +62,14 @@ class ChapterWrapper extends Component {
 
 const mapStateToProps = state => {
   return {
-    chapterData: state.api.chapterData
+    chapterData: state.api.chapterData,
+    sidebarIsShown: state.ui.sidebarIsShown
   }
 };
 
 export default connect(mapStateToProps, {
   getImgLinks,
-  clearImages
-})(ChapterWrapper);
+  clearImages,
+  toggleSidebar
+})(ChapterSidebar);
 

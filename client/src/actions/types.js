@@ -4,3 +4,4 @@ export const GET_SUGG_FROM_BACKEND = 'GET_SUGG_FROM_BACKEND';
 export const CLEAR_SUGG = 'CLEAR_SUGG';
 export const GET_CHAPTERS = 'GET_CHAPTERS';
 export const CLEAR_IMG = 'CLEAR_IMG';
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';

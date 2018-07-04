@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
 import ImageViewer from './image-viewer';
-import ChapterWrapper from './chapter-wrapper';
+import ChapterSidebar from './chapter-sidebar';
 import MangaSearchBar from './manga-searchbar';
 import { getNewImageData } from '../actions/apiActions';
 import axios from 'axios';
@@ -44,7 +44,7 @@ class AppWrapper extends Component {
     return (
       <Container className='app-wrapper'>
         <MangaSearchBar/>
-        <ChapterWrapper/>
+        <ChapterSidebar/>
         <ImageViewer/>
       </Container>
     );

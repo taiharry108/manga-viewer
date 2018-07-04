@@ -1,0 +1,37 @@
+.sidebar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 350px;
+  overflow: hidden;
+}
+
+.chap-wrap {
+  background: white;
+  white-space: normal;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 80%;
+  height: 100%;
+  background-color: #f2e3e3;
+  transition: all 2s;
+  overflow: hidden;
+
+}
+
+.icon-wrapper {
+  width: 12px;
+  height: 20px;
+  background-color: white;  
+}
+
+.sidebar-icon {
+}
+
+.sidebar.in {
+  width: 0;
+  transition: all 2s;
+}
