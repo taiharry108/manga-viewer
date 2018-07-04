@@ -50,6 +50,7 @@ const getImgBuffer = async (imgURL, referer) => {
       'responseType': 'arraybuffer'
   }
   let result;
+  console.log('Im in getImgBuffer');
   return await axios(options)
 }
 
