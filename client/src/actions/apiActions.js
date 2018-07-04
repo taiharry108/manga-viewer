@@ -9,7 +9,7 @@ import { GET_IMG_LINKS,
 import axios from 'axios';
 
 export const getImgLinks = (chapter) => dispatch => {
-  const url = `http://localhost:3000/manga/api/chapter/${chapter}`;
+  const url = `${SERVER_URL}manga/api/chapter/${chapter}`;
   axios.get(url)
   .then(res => {
       dispatch({
@@ -31,7 +31,8 @@ export const getNewImageData = (imgData, referer) => dispatch => {
 
 export const getSuggestionFromBackend = name => dispatch => {
   const encodedName = encodeURI(name);
-  const url = `http://localhost:3000/manga/api/sugg/${encodedName}`;
+  const url = `${SERVER_URL}manga/api/sugg/${encodedName}`;
+  console.log(url);
   axios.get(url)
     .then(res => {
       dispatch({
@@ -48,7 +49,7 @@ export const clearSugg = () => dispatch => {
 }
 
 export const getChapters = mangaName => dispatch => {
-  const url = `http://localhost:3000/manga/api/name/${mangaName}`
+  const url = `${SERVER_URL}manga/api/name/${mangaName}`
   axios.get(url)
     .then(res => {
       dispatch({
