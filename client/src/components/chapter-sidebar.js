@@ -6,7 +6,8 @@ import { Container,
   Card,
   CardBody,
   CardTitle,
-  Button } from 'reactstrap';
+  Button,
+  ButtonGroup } from 'reactstrap';
 import { getImgLinks, clearImages } from '../actions/apiActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toggleSidebar } from '../actions/uiActions';
@@ -17,6 +18,7 @@ class ChapterSidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentType: null
     }
   }
 
@@ -26,30 +28,46 @@ class ChapterSidebar extends Component {
     this.props.getImgLinks(chapURL.replace('/',''))
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (Object.keys(this.props.chapterData).length === 0 && Object.keys(nextProps.chapterData).length !== 0) {
+      const type = Object.keys(nextProps.chapterData)[0]
+      console.log('setting current type to ', type)
+      this.setState({currentType : type});
+    }
+  }
+
   render() {
-    const chapterDiv = Object.keys(this.props.chapterData).map((type) => {
-      let data = this.props.chapterData[type];
+
+    const ChapterDiv = () => {
+      if (this.state.currentType === null)
+        return <Col></Col>
+      let data = this.props.chapterData[this.state.currentType];      
       const dataCol = data.map(d => {
         return  <Col xs='4' key={d.href} className='px-1'>
                   <Button color='warning' onClick={() => this.chapOnClick(d.href)} className='chap-wrap text-center border m-1 py-2 w-100'>{d.vol}</Button>
                 </Col>
       })
-      return  <Container key={type}>                
-                <Row className='p-3 text-nowrap'><h2>{type}</h2></Row>
-                <Row>
+      return  <Container>
+                <Row className='m-0'>
                   {dataCol}
                 </Row>
               </Container>
-      
-    })
+    }
 
-    const sidebarClass = 'sidebar' + (this.props.sidebarIsShown ? '' : ' in');
+    const chapterPickerDiv = Object.keys(this.props.chapterData).map(type => <Button onClick={() => this.setState({currentType: type})}key={type}>{type}</Button>)
+
+    const sidebarClass = 'sidebar d-flex flex-column' + (this.props.sidebarIsShown ? '' : ' in');
 
     return (
       <div className='sidebar-wrapper d-flex flex-row'>
         <div className={sidebarClass}>
+          <div className='align-self-center my-4'>
+            <ButtonGroup>
+              {chapterPickerDiv}
+            </ButtonGroup>
+          </div>
 
-          {chapterDiv}
+          <ChapterDiv/>
         </div>
         <div className="icon-wrapper d-flex align-self-center align-items-center rounded-right text-right" onClick={this.props.toggleSidebar}>
           <div className='filler'></div>

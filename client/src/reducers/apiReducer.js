@@ -9,7 +9,7 @@ const initialState = {
   imgs: [],
   imgsData: [],
   suggestions: [],
-  chapterData: [],
+  chapterData: {},
   referer: null
 }
 

@@ -4,7 +4,7 @@
   left: 0;
   height: 100%;
   width: 350px;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .chap-wrap {
@@ -18,7 +18,7 @@
   height: 100%;
   background-color: #f2e3e3;
   transition: all 2s;
-  overflow: hidden;
+  overflow-x: hidden;
 
 }
 
