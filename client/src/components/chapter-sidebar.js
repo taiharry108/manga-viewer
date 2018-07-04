@@ -24,9 +24,14 @@ class ChapterSidebar extends Component {
 
   chapOnClick = (chapURL) => {
     console.log(chapURL, 'is clicked')
-    this.props.clearImages();
-    this.props.stopGetImage();
-    this.props.getImgLinks(chapURL.replace('/',''));
+    if (this.props.imgs.length !== 0) {
+      this.props.clearImages();
+      this.props.stopGetImage();
+      setTimeout(() => this.props.getImgLinks(chapURL.replace('/','')), 2000);
+    } else {
+      this.props.getImgLinks(chapURL.replace('/',''));
+    }
+      
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,7 +87,8 @@ class ChapterSidebar extends Component {
 const mapStateToProps = state => {
   return {
     chapterData: state.api.chapterData,
-    sidebarIsShown: state.ui.sidebarIsShown
+    sidebarIsShown: state.ui.sidebarIsShown,
+    imgs: state.api.imgs
   }
 };
 

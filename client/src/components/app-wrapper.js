@@ -37,7 +37,7 @@ class AppWrapper extends Component {
 
 
   componentWillReceiveProps(nextProps) {    
-    if (this.props.imgs.length !== nextProps.imgs.length) {
+    if (this.props.imgs.length === 0 && nextProps.imgs.length !== 0) {
       const imgs = [...nextProps.imgs];
       const args = {
         r: nextProps.referer,
@@ -45,7 +45,7 @@ class AppWrapper extends Component {
         f: this.props.getNewImageData
       }
       this.props.allowGetImage(nextProps.referer);
-      this.loopWithDelay(imgs, 5000, (ele, {r, url, f}) => {
+      this.loopWithDelay(imgs, 1000, (ele, {r, url, f}) => {
         const data = {
           imgURL: ele,
           r: r

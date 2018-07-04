@@ -10,7 +10,6 @@ import axios from 'axios';
 
 export const getImgLinks = (chapter) => dispatch => {
   const url = `http://localhost:3000/manga/api/chapter/${chapter}`;
-  console.log('asking backend to get img links for ', chapter)
   axios.get(url)
   .then(res => {
       dispatch({

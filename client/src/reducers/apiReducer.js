@@ -41,9 +41,10 @@ export default function(state = initialState, action) {
         imgs: action.payload.imgs,
         referer: action.payload.referer,        
       }
-    case GET_NEW_IMG_DATA:
+    case GET_NEW_IMG_DATA:    
       const newImgsData = [...state.imgsData];
-      newImgsData.push(action.payload.imgData);
+      if (state.imgs.length !== 0)
+        newImgsData.push(action.payload.imgData);
       return {
         ...state,
         imgsData: newImgsData
