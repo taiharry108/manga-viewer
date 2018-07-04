@@ -8,7 +8,7 @@ import { Container,
   CardTitle,
   Button,
   ButtonGroup } from 'reactstrap';
-import { getImgLinks, clearImages } from '../actions/apiActions';
+import { getImgLinks, clearImages, stopGetImage } from '../actions/apiActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toggleSidebar } from '../actions/uiActions';
 import axios from 'axios';
@@ -24,8 +24,9 @@ class ChapterSidebar extends Component {
 
   chapOnClick = (chapURL) => {
     console.log(chapURL, 'is clicked')
-    this.props.clearImages()
-    this.props.getImgLinks(chapURL.replace('/',''))
+    this.props.clearImages();
+    this.props.stopGetImage();
+    this.props.getImgLinks(chapURL.replace('/',''));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,6 +89,7 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   getImgLinks,
   clearImages,
-  toggleSidebar
+  toggleSidebar,
+  stopGetImage
 })(ChapterSidebar);
 

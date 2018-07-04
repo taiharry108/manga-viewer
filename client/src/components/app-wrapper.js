@@ -4,9 +4,8 @@ import { Container } from 'reactstrap';
 import ImageViewer from './image-viewer';
 import ChapterSidebar from './chapter-sidebar';
 import MangaSearchBar from './manga-searchbar';
-import { getNewImageData } from '../actions/apiActions';
+import { allowGetImage, stopGetImage, getNewImageData } from '../actions/apiActions';
 import axios from 'axios';
-import { loopWithDelay } from '../utils';
 import './app-wrapper.css';
 
 
@@ -16,10 +15,26 @@ class AppWrapper extends Component {
     
     this.state = {
       textContent:'',
-      imgsData: []
+      imgsData: [],
     }
+
+    this.loopWithDelay = this.loopWithDelay.bind(this);
     
   }
+
+  loopWithDelay = (arr, delay, func, args) => {
+    let ele = arr.shift();
+    func(ele, args);
+    console.log('going to set a timeout before getting another one')
+    setTimeout(() => {
+      console.log(this.props.shouldStopGettingImgs);
+      if (arr.length !== 0 && !this.props.shouldStopGettingImgs[args.r]) {
+        this.loopWithDelay(arr, delay, func, args)
+      }
+    }, delay);
+      
+  }
+
 
   componentWillReceiveProps(nextProps) {    
     if (this.props.imgs.length !== nextProps.imgs.length) {
@@ -29,12 +44,16 @@ class AppWrapper extends Component {
         url: "http://localhost:3000/manga/api/getImg",
         f: this.props.getNewImageData
       }
-      loopWithDelay(imgs, 1000, (ele, {r, url, f}) => {
+      this.props.allowGetImage(nextProps.referer);
+      this.loopWithDelay(imgs, 5000, (ele, {r, url, f}) => {
         const data = {
           imgURL: ele,
           r: r
         }
-        axios.post(url, data).then((res) => f(res.data));
+        axios.post(url, data).then((res) => {
+          console.log(r);
+          f(res.data);
+        });
       }, args)
     }
   }
@@ -55,11 +74,13 @@ const mapStateToProps = state => {
   return {
     imgs: state.api.imgs,
     referer: state.api.referer,
-    imgsData: state.api.imgsData
+    imgsData: state.api.imgsData,
+    shouldStopGettingImgs: state.api.shouldStopGettingImgs
   }
 };
 
 export default connect(mapStateToProps, {
-  getNewImageData
+  getNewImageData,
+  allowGetImage
 })(AppWrapper);
 

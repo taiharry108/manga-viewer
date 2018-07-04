@@ -3,11 +3,14 @@ import { GET_IMG_LINKS,
   GET_SUGG_FROM_BACKEND,
   CLEAR_SUGG,
   GET_CHAPTERS,
-  CLEAR_IMG } from './types';
+  CLEAR_IMG,
+  ALLOW_GET_IMG,
+  STOP_GET_IMG } from './types';
 import axios from 'axios';
 
 export const getImgLinks = (chapter) => dispatch => {
   const url = `http://localhost:3000/manga/api/chapter/${chapter}`;
+  console.log('asking backend to get img links for ', chapter)
   axios.get(url)
   .then(res => {
       dispatch({
@@ -20,10 +23,10 @@ export const getImgLinks = (chapter) => dispatch => {
   })
 }
 
-export const getNewImageData = (imgData) => dispatch => {
+export const getNewImageData = (imgData, referer) => dispatch => {
   dispatch({
     type: GET_NEW_IMG_DATA,
-    payload: imgData
+    payload: {imgData, referer}
   });
 }
 
@@ -59,5 +62,18 @@ export const getChapters = mangaName => dispatch => {
 export const clearImages = () => dispatch => {
   dispatch({
     type: CLEAR_IMG
+  })
+}
+
+export const stopGetImage = () => dispatch => {
+  dispatch({
+    type: STOP_GET_IMG,
+  })
+}
+
+export const allowGetImage = (referer) => dispatch => {
+  dispatch({
+    type: ALLOW_GET_IMG,
+    payload: referer
   })
 }

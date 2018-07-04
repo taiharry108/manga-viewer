@@ -5,3 +5,5 @@ export const CLEAR_SUGG = 'CLEAR_SUGG';
 export const GET_CHAPTERS = 'GET_CHAPTERS';
 export const CLEAR_IMG = 'CLEAR_IMG';
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+export const ALLOW_GET_IMG = 'ALLOW_GET_IMG';
+export const STOP_GET_IMG = 'STOP_GET_IMG';
