@@ -70,7 +70,6 @@ const getImgLinks = async (chapterURL) => {
     const scripts = $('script');
     const script = scripts.map((i, x) => x.children[0]).filter((i, x) => x && x.data.startsWith('eval')).get(0);
     const text = script.data
-    console.log(text)
     const s = eval(text.slice(4));
     eval(s);
     result = newImgs;
