@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
+import { toggleSidebar } from '../actions/uiActions';
 import axios from 'axios';
 import './image-viewer.css';
 
@@ -18,7 +19,7 @@ class ImageViewer extends Component {
                   </div>
         })
     return (
-      <div className='d-flex flex-column text-center py-3'>
+      <div className='image-viewer-wrapper d-flex flex-column text-center py-3' onClick={this.props.toggleSidebar}>
         {ImgDiv}
       </div>
     );
@@ -34,5 +35,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
+  toggleSidebar
 })(ImageViewer);
 

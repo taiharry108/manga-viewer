@@ -1,7 +1,7 @@
 import { TOGGLE_SIDEBAR
 } from '../actions/types'
 const initialState = {
-  sidebarIsShown: true
+  sidebarIsShown: false
 }
 
 export default function(state = initialState, action) {

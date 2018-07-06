@@ -4,6 +4,7 @@ import { getImgLinks,
   getSuggestionFromBackend,
   clearSugg,
   getChapters } from '../actions/apiActions';
+import { toggleSidebar } from '../actions/uiActions';
 import { Form, Input } from 'reactstrap';
 import Autosuggest from 'react-autosuggest';
 
@@ -94,6 +95,7 @@ class MangaSearchBar extends Component {
     e.preventDefault();
     console.log('going to submit', this.state.mangaName);
     this.props.getChapters(this.state.mangaName);
+    this.props.toggleSidebar();
   }
 
   onChange = (event, { newValue, method }) => {
@@ -113,6 +115,7 @@ class MangaSearchBar extends Component {
   onSuggestionSelected = (event, { suggestion, suggestionValue }) => {
     console.log(suggestion.link);
     this.props.getChapters(suggestion.link);
+    this.props.toggleSidebar();
   }
 
   render() {
@@ -153,6 +156,7 @@ export default connect(mapStateToProps, {
   getImgLinks,
   getSuggestionFromBackend,
   clearSugg,
-  getChapters
+  getChapters,
+  toggleSidebar
 })(MangaSearchBar);
 
