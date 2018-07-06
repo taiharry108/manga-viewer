@@ -28,7 +28,7 @@ module.exports = {
       template: './src/index.html'
     }),
     new webpack.DefinePlugin({
-      SERVER_URL: JSON.stringify("http://localhost:5000/"),
+      SERVER_URL: JSON.stringify("/"),
     })
   ]
 };

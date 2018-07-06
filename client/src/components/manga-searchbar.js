@@ -4,7 +4,7 @@ import { getImgLinks,
   getSuggestionFromBackend,
   clearSugg,
   getChapters } from '../actions/apiActions';
-import { Form } from 'reactstrap';
+import { Form, Input } from 'reactstrap';
 import Autosuggest from 'react-autosuggest';
 
 const theme = {
@@ -86,13 +86,14 @@ class MangaSearchBar extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       value: '',
+      mangaName: ''
     }
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log('going to submit', this.state.textContent);
-    this.props.getImgLinks(this.state.value);
+    console.log('going to submit', this.state.mangaName);
+    this.props.getChapters(this.state.mangaName);
   }
 
   onChange = (event, { newValue, method }) => {
@@ -110,6 +111,7 @@ class MangaSearchBar extends Component {
   };
 
   onSuggestionSelected = (event, { suggestion, suggestionValue }) => {
+    console.log(suggestion.link);
     this.props.getChapters(suggestion.link);
   }
 
@@ -122,7 +124,7 @@ class MangaSearchBar extends Component {
       onChange: this.onChange
     };
     return (
-      <Form onSubmit={this.onSubmit}>
+      <div>
         <Autosuggest 
           suggestions={suggestions}
           onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -133,7 +135,10 @@ class MangaSearchBar extends Component {
           inputProps={inputProps}
           theme={theme}
         />
-      </Form>
+        <Form onSubmit={this.onSubmit}>
+          <Input type="text" name="mangaName" className="my-3" onChange={(e) => this.setState({ [e.target.name]: e.target.value })}/>
+        </Form>
+      </div>
     );
   }
 }
