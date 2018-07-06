@@ -7,10 +7,17 @@
 var app = require('../app');
 var debug = require('debug')('managawebscrape:server');
 var http = require('http');
+var firebase = require('firebase');
 
 /**
  * Get port from environment and store in Express.
  */
+
+var config = {
+  apiKey: "AIzaSyBGFO6usfVIqAxC2zS9ltGU9xRZE7RAEnE",
+  authDomain: "manhuaren-viewer.firebaseapp.com",
+};
+firebase.initializeApp(config);
 
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
