@@ -41,7 +41,7 @@ class AppWrapper extends Component {
       const imgs = [...nextProps.imgs];
       const args = {
         r: nextProps.referer,
-        url: "http://localhost:3000/manga/api/getImg",
+        url: `${SERVER_URL}manga/api/getImg`,
         f: this.props.getNewImageData
       }
       this.props.allowGetImage(nextProps.referer);
