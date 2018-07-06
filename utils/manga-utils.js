@@ -50,8 +50,10 @@ const getImgBuffer = async (imgURL, referer) => {
     'responseType': 'arraybuffer'
   }
   let result;
-  console.log('Im in getImgBuffer');
-  return await axios(options)
+  const instance = axios.create({
+    httpsAgent: new http.Agent({rejectUnauthorized:false})
+  })
+  return await instance(options);
 }
 
 const extractData = ({url, data}) => {
